@@ -1,0 +1,172 @@
+<div [ngClass]="{'d-flex justify-content-end':currentLang === 'ar'}">
+<button (click)="showUserForm = !showUserForm"  class="btn btn-dark mb-3">{{"Add User" | translate}}</button>
+</div>
+<div class="card card-body mb-3" *ngIf="showUserForm">
+  <h2 [ngClass]="{'d-flex justify-content-end':currentLang == 'ar'}" >{{"Add User" | translate}}</h2>
+  <!-- 
+  <form #userForm="ngForm" (ngSubmit)="Submit(userForm)">
+    
+    <div class="form-group">
+     
+      <label [ngClass]="{'d-flex justify-content-end':currentLang=== 'ar'}" >{{"First Name" | translate}}</label>
+     
+      <input 
+        type="text" 
+        [(ngModel)]="user.firstName" 
+        [ngClass]="{'is-invalid':userFirstName.errors && userFirstName.touched}"
+        class="form-control" 
+        name="firstName"
+        #userFirstName="ngModel"
+        required
+        minlength="2"
+      >
+      <div [hidden]="!userFirstName.errors?.required" class="invalid-feedback">
+         {{"First name required" | translate}}
+      </div>
+
+      <div [hidden]="!userFirstName.errors?.minlength" class="invalid-feedback">
+         {{"Must be at least 2 characters" | translate}}   
+      </div>
+     
+    </div>
+    <div class="form-group">
+      <label [ngClass]="{'d-flex justify-content-end':currentLang=== 'ar'}" >{{"Last Name" | translate}}</label>
+      <input 
+        type="text" 
+        [(ngModel)]="user.lastName" 
+        [ngClass]="{'is-invalid':userLastName.errors && userLastName.touched}"
+        class="form-control" 
+        name="lastName"
+        #userLastName="ngModel"
+        required
+        minlength="2"
+        
+      >
+      <div [hidden]="!userLastName.errors?.required" class="invalid-feedback">
+        Last name required {{"Last name required" | translate}}
+      </div>
+     
+      <div [hidden]="!userLastName.errors?.minlength" class="invalid-feedback">
+        {{"Must be at least 2 characters" | translate}}
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label [ngClass]="{'d-flex justify-content-end':currentLang=== 'ar'}" >{{"Email" | translate}}
+      </label>
+      <input 
+      type="email" 
+      [(ngModel)]="user.email" 
+      [ngClass]="{'is-invalid':userEmail.errors && userEmail.touched}"
+      class="form-control" 
+      name="email"
+      #userEmail="ngModel"
+      required
+      pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+    >
+    <div [hidden]="!userEmail.errors?.required" class="invalid-feedback">
+      {{"Email name required" | translate}}
+    </div>
+
+    <div [hidden]="!userEmail.errors?.pattern" class="invalid-feedback">
+      {{"Email is not valid" | translate}}
+
+    </div>
+
+    </div>
+
+    <button [disabled]="!userForm.form.valid" class="btn btn-block mb-3">{{"Add New User" | translate}}
+    </button>
+
+  </form>
+  -->
+  <form (ngSubmit)="submit()" [formGroup]="vaildForm" autocomplete="off">
+
+    <div class="form-group">
+
+      <label [ngClass]="{'d-flex justify-content-end':currentLang=== 'ar'}" >{{"First Name" | translate}}</label>
+
+        <input 
+            
+            formControlName="firstName"
+            class="form-control" 
+            placeholder="First Name..."
+            type="text" 
+            [ngClass]="{'is-invalid':f.firstName.errors && f.firstName.touched}"
+            >
+
+        <div *ngIf="f.firstName.touched || f.firstName.invalid"class="invalid-feedback" >
+            <div *ngIf="f.firstName.errors?.required">{{"First name required" | translate}}</div>
+            <div *ngIf="f.firstName.errors?.minlength">{{"Must be at least 2 characters" | translate}}   </div>
+            <div *ngIf="f.firstName.errors?.pattern"> {{"Should Be a String and not contain any Space" | translate}}</div>  
+
+        </div>
+
+    </div>
+    <div class="form-group">
+
+      <label  [ngClass]="{'d-flex justify-content-end':currentLang=== 'ar'}" >{{"Last Name" | translate}}</label>
+
+        <input 
+            formControlName="lastName"
+            class="form-control" 
+            type="text" 
+            placeholder="Last Name..."
+            [ngClass]="{'is-invalid':f.lastName.errors && f.lastName.touched}"
+            >
+
+        <div *ngIf="f.lastName.touched || f.lastName.invalid"class="invalid-feedback" >
+            <div *ngIf="f.lastName.errors?.required">{{"Last name required" | translate}}</div>
+            <div *ngIf="f.lastName.errors?.minlength">{{"Must be at least 2 characters" | translate}}</div>
+            <div *ngIf="f.lastName.errors?.pattern"> {{"Should Be a String and not contain any Space" | translate}}</div>  
+
+        </div>
+
+    </div>
+    <div class="form-group">
+      <label [ngClass]="{'d-flex justify-content-end':currentLang=== 'ar'}" >{{"Email" | translate}}
+      </label>
+      <input 
+          type="email" 
+          formControlName = "email"
+          [ngClass]="{'is-invalid':f.email.errors && f.email.touched}"
+          class="form-control" 
+          name="email" 
+          placeholder="email"
+          
+    >
+    <div *ngIf="f.email.touched || f.email.invalid"class="invalid-feedback" >
+      <div *ngIf="f.email.errors?.required">{{"Email name required" | translate}}</div>
+      <div *ngIf="f.email.errors?.pattern"> {{"Email is not valid" | translate}}</div>
+     </div>
+
+    </div>
+   
+
+
+    <button [disabled]="!vaildForm.valid" class="btn btn-block mb-3">{{"Add New User" | translate}}
+    </button>
+
+</form>
+   
+
+</div>
+<ul class="list-unstyled" *ngIf="loaded && users.length > 0">
+  <li class="card card-body mb-2" *ngFor="let user of users" [class.bg-light]="user.isActive">
+    <h3>{{ user.firstName }} {{ user.lastName }}
+      <small>
+        <button (click)="user.hide = !user.hide" class="btn btn-dark btn-sm">
+          <i [ngClass]="user.hide ? 'fa fa-plus' : 'fa fa-minus'"></i>
+        </button>
+      </small>
+    </h3>
+    <ul class="list-group" *ngIf="!user.hide">
+      <li class="list-group-item">{{"Email" | translate}}: {{ user.email }}</li>
+      <li class="list-group-item">{{"Joined" | translate}}: {{ user.registered | date }}</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 *ngIf="users?.length == 0">No Users Found</h4>
+
+<h4 *ngIf="!loaded">Loading Users...</h4>
